@@ -1,0 +1,47 @@
+.project-grid {
+  position: relative;
+  transform: translate(0, 0);
+  --column-width: 0;
+  --row-height: 0;
+  --track-count: 0;
+  --duration: 0;
+  width: calc(var(--track-count) * var(--column-width));
+  height: calc(var(--duration) * var(--row-height));
+  background: repeating-linear-gradient(
+    to bottom,
+    #ffffff00 calc(0 * var(--row-height)),
+    #ffffff00 calc(1 * var(--row-height)),
+    #ffffff08 calc(1 * var(--row-height)),
+    #ffffff08 calc(2 * var(--row-height))
+  );
+  cursor: cell;
+  user-select: none;
+  filter: saturate(0.75);
+}
+.pg-position {
+  position: absolute;
+  --x: 0;
+  --y: 0;
+  top: calc(var(--y) * var(--row-height));
+  left: calc(var(--x) * var(--column-width));
+}
+
+.pg-cell {
+  height: var(--row-height);
+  width: var(--column-width);
+  background-color: var(--assignment-color);
+  opacity: 0.75;
+}
+.pg-cell:hover {
+  box-shadow: 0 0 0 0.125rem dodgerblue inset;
+  opacity: 1;
+}
+.pg-track--is-overlay {
+  mix-blend-mode: multiply;
+}
+.project-grid[data-disabled] {
+  cursor: not-allowed;
+}
+.project-grid[data-disabled] > * {
+  pointer-events: none;
+}

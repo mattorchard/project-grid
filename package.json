@@ -1,0 +1,25 @@
+{
+  "name": "project-grid",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "preact": "^10.4.1",
+    "uuid": "8.3.2",
+    "idb": "7.0.1"
+  },
+  "devDependencies": {
+    "@prefresh/vite": "^1.2.1",
+    "vite": "^1.0.0-rc.13",
+    "@types/uuid": "8.3.4"
+  },
+  "eslintConfig": {
+    "settings": {
+      "react": {
+        "pragma": "h"
+      }
+    }
+  }
+}

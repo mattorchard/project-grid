@@ -1,0 +1,39 @@
+.palette-color-picker {
+  position: relative;
+}
+.palette-color-picker .dot-button {
+  width: 1rem;
+  height: 1rem;
+  background-color: var(--assignment-color);
+}
+
+.pc-menu {
+  position: absolute;
+  width: max-content;
+  left: 50%;
+  top: 100%;
+  transform: translate(-50%, 0.5rem);
+  background-color: var(--gray-700);
+  z-index: 100;
+  padding: 0.5rem 0;
+  border-radius: 0.25rem;
+}
+.pc-menu__option {
+  padding: 0 0.5rem;
+  text-transform: capitalize;
+  width: 100%;
+}
+
+.pc-menu__option:hover {
+  background-color: var(--gray-600);
+}
+
+.pc-menu::before {
+  content: "";
+  position: absolute;
+  border: 0.5rem solid transparent;
+  border-bottom-color: var(--gray-700);
+  bottom: 100%;
+  left: 50%;
+  transform: translate(-50%, 0);
+}

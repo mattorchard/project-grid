@@ -1,0 +1,11 @@
+.add-button {
+  background-color: transparent;
+  transition: background-color 0.25s ease-in-out;
+  color: var(--green-300);
+}
+
+.add-button:focus,
+.add-button:active,
+.add-button:hover {
+  background-color: var(--green-700);
+}
