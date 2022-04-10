@@ -60,8 +60,14 @@ export const LayerStack: FunctionComponent<{}> = ({}) => {
           </Box>
         ))}
       </ol>
-      {visibleLayersCount > 1 && (
-        <Box as="p" mt={0.5} className="subtle-message">
+
+      {layers.length > 1 && (
+        <Box
+          as="p"
+          mt={0.5}
+          className="subtle-message"
+          style={{ visibility: visibleLayersCount > 1 ? "visible" : "hidden" }}
+        >
           In grid editing is disabled while viewing multiple layers
         </Box>
       )}

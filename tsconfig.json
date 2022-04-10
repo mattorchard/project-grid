@@ -15,7 +15,10 @@
     "noEmit": true,
     "jsx": "preserve",
     "jsxFactory": "h",
-    "jsxFragmentFactory": "Fragment"
+    "jsxFragmentFactory": "Fragment",
+    "paths": {
+      "csv-stringify": ["../node_modules/csv-stringify/lib/index.js"]
+    }
   },
   "include": ["src"]
 }

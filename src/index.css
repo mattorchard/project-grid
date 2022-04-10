@@ -104,6 +104,7 @@
   --color-lighter: rgba(255, 255, 255, 0.04);
   --color-darken: rgba(0, 0, 0, 0.16);
   --gray-800-alpha: #1a202c80;
+  --color-text-light: #f0f0f0f0;
 }
 html,
 body {
@@ -140,24 +141,24 @@ input[type="checkbox"]:enabled {
   cursor: pointer;
 }
 .button {
-  background-color: var(--gray-300);
-  color: black;
-  transition: background-codot-buttonlor 0.25s ease-in-out;
+  background-color: var(--gray-500);
+  color: #00000dd0;
+  transition: filter 0.2s ease-in-out;
 }
 
 .button:disabled {
-  background-color: var(--gray-500);
+  filter: brightness(0.75);
 }
 
 .button:enabled:focus,
 .button:enabled:hover {
-  background-color: var(--gray-200);
+  filter: brightness(1.25);
 }
 
 .button:hover:active,
 .button:focus:active,
 .button:active {
-  background-color: var(--gray-400);
+  filter: brightness(0.875);
 }
 
 .h1 {
@@ -237,4 +238,13 @@ a {
 }
 a:hover {
   text-decoration: underline;
+}
+
+.export-button {
+  border-radius: 0.25rem;
+  padding: 0.25rem 1rem 0.5rem;
+  font-variant: small-caps;
+  text-transform: lowercase;
+  background-color: var(--blue-600);
+  color: var(--color-text-light);
 }

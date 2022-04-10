@@ -1,9 +1,11 @@
 .move-arrows__up {
   border-top-left-radius: 0.25rem;
   border-top-right-radius: 0.25rem;
+  font-size: 0.75rem;
 }
 
 .move-arrows__down {
+  font-size: 0.75rem;
   border-bottom-left-radius: 0.25rem;
   border-bottom-right-radius: 0.25rem;
 }
