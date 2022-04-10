@@ -44,9 +44,6 @@ export const LayerStack: FunctionComponent<{}> = ({}) => {
               onCommit={(value) => renameLayer(layer.id, value)}
               placeholder="Layer name"
             />
-            <Button title="Duplicate layer" className="dot-button">
-              D
-            </Button>
             <Box flexDirection="column" mx={0.5}>
               <MoveArrows
                 name="layer"

@@ -27,6 +27,7 @@ export const TrackList: FunctionComponent<{}> = ({}) => {
               value={trackSpec.name}
               onCommit={(value) => renameTrackSpec(trackSpec.id, value)}
               placeholder="Track name"
+              id={`track-spec-${trackSpec.id}`}
             />
             <Box flexDirection="column" mx={0.5}>
               <MoveArrows

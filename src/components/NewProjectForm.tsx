@@ -19,7 +19,7 @@ export const NewProjectForm: FunctionComponent<{
 }> = ({ project, onCancel, onSubmit }) => {
   const [name, setName] = useState(project?.name || "");
   const [startDateRaw, setStartDateRaw] = useState(() =>
-    simpleDateToString(project?.startDate ?? getNow())
+    simpleDateToString(project?.rowDates?.[0]?.start ?? getNow())
   );
   const [endDateRaw, setEndDateRaw] = useState(() =>
     project

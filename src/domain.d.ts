@@ -13,9 +13,14 @@ declare global {
     createdAt: number;
   }
 
+  interface SimpleDateRange {
+    start: SimpleDate;
+    end: SimpleDate;
+  }
+
   interface Project extends BaseEntity {
-    startDate: SimpleDate;
     duration: number;
+    rowDates: SimpleDateRange[];
     layers: ProjectLayer[];
     trackSpecifications: ProjectTrackSpecification[];
     assignmentSepecifications: ProjectAssignmentSpecification[];

@@ -1,14 +1,15 @@
 import { h, FunctionComponent, Fragment } from "preact";
 import { useCallback, useMemo, useRef, useState } from "preact/hooks";
 import { useProjectContext } from "../contexts/ProjectContext";
+import { simpleDateToString, toHumanDate } from "../helpers/dateHelpers";
 import { asCssVar } from "../palette";
 import "./ProjectGrid.css";
 
 export const ProjectGrid: FunctionComponent<{}> = ({}) => {
   const { project, changeLayerAssignment } = useProjectContext();
   const [gridScale] = useState({
-    width: 160,
-    height: 32,
+    width: 120,
+    height: 60,
   });
   const layerStack = useMemo(() => {
     const visibleLayers = project.layers.filter((layer) => layer.isVisible);
@@ -24,6 +25,40 @@ export const ProjectGrid: FunctionComponent<{}> = ({}) => {
         ])
       ),
     [project]
+  );
+
+  const rowDateJsx = useMemo(
+    () => (
+      <ol className="project-grid__date-names">
+        {project.rowDates.map(({ start, end }, index) => (
+          <li key={index} className="subtle-message">
+            <div
+              title={`${simpleDateToString(
+                start
+              )} ${enDash} ${simpleDateToString(end)}`}
+            >
+              <time dateTime={simpleDateToString(start)}>
+                {toHumanDate(
+                  start,
+                  true,
+                  start.year !== end.year ||
+                    project.rowDates[index - 1]?.end.year !== end.year
+                )}
+              </time>
+              {` ${enDash} `}
+              <time dateTime={simpleDateToString(end)}>
+                {toHumanDate(
+                  end,
+                  start.month !== end.month,
+                  start.year !== end.year
+                )}
+              </time>
+            </div>
+          </li>
+        ))}
+      </ol>
+    ),
+    []
   );
 
   const activeAssignmentId = project.activeAssignmentSpecId;
@@ -44,8 +79,7 @@ export const ProjectGrid: FunctionComponent<{}> = ({}) => {
 
   return (
     <div
-      className="project-grid"
-      data-disabled={layerStack.length !== 1}
+      className="project-grid__container"
       style={{
         ...assignmentColorDefinitions,
         "--track-count": project.trackSpecifications.length,
@@ -53,44 +87,63 @@ export const ProjectGrid: FunctionComponent<{}> = ({}) => {
         "--column-width": `${gridScale.width}px`,
         "--row-height": `${gridScale.height}px`,
       }}
-      onPointerOver={handlePointer}
-      onPointerDown={handlePointer}
-      onContextMenu={(e) => e.preventDefault()}
     >
-      {layerStack.length === 0 && <p>No Visible Layers</p>}
-      {layerStack.map((layer, layerIndex) => (
-        <Fragment key={layer.id}>
-          {layer.tracks.map((track, trackIndex) => (
-            <div
-              key={track.trackSpecId}
-              className={`pg-track ${layerIndex > 0 && "pg-track--is-overlay"}`}
-            >
-              {track.cells.map((cell, rowIndex) => (
-                <div
-                  key={rowIndex}
-                  className="pg-cell pg-position"
-                  data-target="cell"
-                  data-assigned-id={cell?.assignedId}
-                  data-track-spec-id={track.trackSpecId}
-                  data-layer-id={layer.id}
-                  data-y={rowIndex}
-                  data-x={trackIndex}
-                  style={{
-                    "--y": rowIndex,
-                    "--x": trackIndex,
-                    "--assignment-color":
-                      cell &&
-                      `var(${getAssignmentColorProperty(cell.assignedId)})`,
-                  }}
-                />
-              ))}
-            </div>
+      <div className="project-grid__scroll-container">
+        <ol className="project-grid__track-names">
+          {project.trackSpecifications.map((track) => (
+            <li key={track.id} title={track.name} className="ellipses">
+              <a href={`#track-spec-${track.id}`}>{track.name}</a>
+            </li>
           ))}
-        </Fragment>
-      ))}
+        </ol>
+        {rowDateJsx}
+        <div
+          className="project-grid"
+          data-disabled={layerStack.length !== 1}
+          onPointerOver={handlePointer}
+          onPointerDown={handlePointer}
+          onContextMenu={(e) => e.preventDefault()}
+        >
+          {layerStack.length === 0 && <p>No Visible Layers</p>}
+          {layerStack.map((layer, layerIndex) => (
+            <Fragment key={layer.id}>
+              {layer.tracks.map((track, trackIndex) => (
+                <div
+                  key={track.trackSpecId}
+                  className={`pg-track ${
+                    layerIndex > 0 && "pg-track--is-overlay"
+                  }`}
+                >
+                  {track.cells.map((cell, rowIndex) => (
+                    <div
+                      key={rowIndex}
+                      className="pg-cell pg-position"
+                      data-target="cell"
+                      data-assigned-id={cell?.assignedId}
+                      data-track-spec-id={track.trackSpecId}
+                      data-layer-id={layer.id}
+                      data-y={rowIndex}
+                      data-x={trackIndex}
+                      style={{
+                        "--y": rowIndex,
+                        "--x": trackIndex,
+                        "--assignment-color":
+                          cell &&
+                          `var(${getAssignmentColorProperty(cell.assignedId)})`,
+                      }}
+                    />
+                  ))}
+                </div>
+              ))}
+            </Fragment>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
+
+const enDash = `–`;
 
 interface CellPointerDetails {
   x: number;

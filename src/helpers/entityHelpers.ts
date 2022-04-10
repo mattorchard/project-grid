@@ -1,6 +1,11 @@
 import { v4 as uuidV4 } from "uuid";
 import { palette, PaletteColor } from "../palette";
-import { getNow, WEEKS_IN_YEAR } from "./dateHelpers";
+import {
+  getNextYear,
+  getNow,
+  getWeekRanges,
+  WEEKS_IN_YEAR,
+} from "./dateHelpers";
 
 const createId = () => uuidV4();
 
@@ -14,8 +19,8 @@ const asIds = (entities: BaseEntity[]) => entities.map((entity) => entity.id);
 
 export const createProject = (): Project => ({
   ...createBaseEntity("Project"),
-  startDate: getNow(),
-  duration: WEEKS_IN_YEAR,
+  duration: 0,
+  rowDates: [],
   layers: [],
   trackSpecifications: [],
   assignmentSepecifications: [],
@@ -67,8 +72,11 @@ const chooseRandom = <ItemType>(array: ItemType[]): ItemType =>
   array[Math.floor(array.length * Math.random())];
 
 export const createDemoProject = (): Project => {
+  const rowDates = getWeekRanges(getNow(), getNextYear());
   const project: Project = {
     ...createProject(),
+    duration: rowDates.length,
+    rowDates,
     name: "Demo Project",
     trackSpecifications: [
       { ...createBaseEntity(), name: "Alehands" },

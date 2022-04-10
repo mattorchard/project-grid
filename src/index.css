@@ -103,6 +103,7 @@
 
   --color-lighter: rgba(255, 255, 255, 0.04);
   --color-darken: rgba(0, 0, 0, 0.16);
+  --gray-800-alpha: #1a202c80;
 }
 html,
 body {
@@ -203,4 +204,37 @@ ol {
 .subtle-message {
   opacity: 0.75;
   font-size: 0.75rem;
+}
+.ellipses {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--gray-600);
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--gray-600);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gray-500);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gray-400);
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
 }

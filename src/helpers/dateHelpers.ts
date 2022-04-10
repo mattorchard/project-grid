@@ -11,8 +11,12 @@ const fromJsDate = (date: Date) => ({
 const asJsDate = (date: SimpleDate) => new Date(simpleDateToString(date));
 
 export const getNow = (): SimpleDate => fromJsDate(new Date());
-export const getNextWeek = (): SimpleDate =>
-  fromJsDate(new Date(Date.now() + DAYS_IN_WEEK * MILLIS_IN_DAY));
+
+export const getNextYear = (): SimpleDate => {
+  const jsDate = asJsDate(getNow());
+  jsDate.setUTCFullYear(jsDate.getUTCFullYear() + 1);
+  return fromJsDate(jsDate);
+};
 
 const padZeros = (value: number, digits = 2) => {
   const valueAsString = value.toString();
@@ -62,4 +66,69 @@ export const getEndDateString = (
     trueEndDate.getUTCDate() + DAYS_IN_WEEK * durationWeeks
   );
   return simpleDateToString(fromJsDate(trueEndDate));
+};
+
+const addDaysToDate = (date: Date, daysToAdvance: number) =>
+  date.setUTCDate(date.getUTCDate() + daysToAdvance);
+
+export const getWeekRanges = (
+  startDate: SimpleDate,
+  endDate: SimpleDate
+): SimpleDateRange[] => {
+  const iterDate = asJsDate(startDate);
+  const trueEndDate = asJsDate(endDate);
+  if (iterDate >= trueEndDate) throw new Error(`End date must be after start`);
+
+  const weekRanges: SimpleDateRange[] = [];
+  const weekDayOffset = iterDate.getUTCDay();
+  if (weekDayOffset) {
+    const start = fromJsDate(iterDate);
+    const daysUntilSunday = 6 - weekDayOffset;
+    addDaysToDate(iterDate, daysUntilSunday);
+    weekRanges.push({
+      start: start,
+      end: fromJsDate(iterDate),
+    });
+    addDaysToDate(iterDate, 1);
+  }
+
+  while (iterDate < trueEndDate) {
+    const start = fromJsDate(iterDate);
+    addDaysToDate(iterDate, 6);
+    const end = fromJsDate(iterDate < trueEndDate ? iterDate : trueEndDate);
+    addDaysToDate(iterDate, 1);
+    weekRanges.push({ start, end });
+  }
+
+  return weekRanges;
+};
+
+const shortMonthNames = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Oct",
+  "Sep",
+  "Nov",
+  "Dec",
+];
+
+export const toHumanDate = (
+  simpleDate: SimpleDate,
+  includeMonth: boolean,
+  includeYear: boolean
+) => {
+  let dateText = simpleDate.day.toString();
+  if (!includeMonth) return dateText;
+
+  const monthName = shortMonthNames[simpleDate.month - 1];
+  dateText = `${monthName} ${dateText}`;
+  if (!includeYear) return dateText;
+
+  return `${simpleDate.year} ${dateText}`;
 };
