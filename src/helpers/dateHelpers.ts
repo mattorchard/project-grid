@@ -76,8 +76,8 @@ const shortMonthNames = [
   "Jun",
   "Jul",
   "Aug",
-  "Oct",
   "Sep",
+  "Oct",
   "Nov",
   "Dec",
 ];
