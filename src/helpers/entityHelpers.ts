@@ -59,15 +59,14 @@ export const createTrack = (): ProjectTrackSpecification =>
 
 export const createLayer = (
   trackSpecs: ProjectTrackSpecification[],
-  duration: number,
-  isVisible: boolean
+  duration: number
 ): ProjectLayer => ({
   ...createBaseEntity("Layer"),
   tracks: trackSpecs.map((trackSpec) => ({
     trackSpecId: trackSpec.id,
     cells: new Array(duration).fill(null),
   })),
-  isVisible,
+  isVisible: true,
 });
 
 const chooseRandom = <ItemType>(array: ItemType[]): ItemType =>

@@ -206,12 +206,11 @@ export const useProjectState = (initialProject: Project) => {
       addLayer: () =>
         updateProject((oldProject) => ({
           layers: [
-            ...oldProject.layers,
-            createLayer(
-              oldProject.trackSpecifications,
-              oldProject.duration,
-              oldProject.layers.length > 0
-            ),
+            ...oldProject.layers.map((layer) => ({
+              ...layer,
+              isVisible: false,
+            })),
+            createLayer(oldProject.trackSpecifications, oldProject.duration),
           ],
         })),
     }),
