@@ -35,7 +35,7 @@ export const ProjectEditor = () => {
         <TrackList />
         <Box justifyContent="center">
           <Button
-            className="h3 export-button"
+            className="h3 hero-button"
             onClick={() => downloadProjectAsCsv(project)}
           >
             Export

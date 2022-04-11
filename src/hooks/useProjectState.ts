@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "preact/hooks";
+import { useCallback, useEffect, useMemo, useState } from "preact/hooks";
 import {
   createAssignment,
   createDemoProject,
@@ -9,6 +9,8 @@ import {
   updateArray,
   updateEntity,
 } from "../helpers/entityHelpers";
+import { saveProject } from "../helpers/ProjectRepository";
+import { debounce } from "../helpers/timingHelpers";
 
 import { PaletteColor } from "../palette";
 
@@ -19,8 +21,14 @@ export interface AssignmentChangeTarget {
   assignedId: string | null;
 }
 
-export const useProjectState = () => {
-  const [project, setProject] = useState(createDemoProject);
+const saveProjectDebounced = debounce(saveProject, 2_000);
+
+export const useProjectState = (initialProject: Project) => {
+  const [project, setProject] = useState(initialProject);
+
+  useEffect(() => {
+    saveProjectDebounced(project);
+  }, [project]);
 
   const updateProject = useCallback(
     (createPatch: (oldProject: Project) => Partial<Project>) =>

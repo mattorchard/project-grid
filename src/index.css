@@ -196,6 +196,14 @@ span.dot-button {
 .input::placeholder {
   color: #ffffff80;
 }
+.input[type="date"] {
+  background-color: var(--color-lighter);
+  cursor: pointer;
+}
+.input::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  cursor: pointer;
+}
 
 ul,
 ol {
@@ -236,15 +244,45 @@ a {
   color: inherit;
   text-decoration: none;
 }
-a:hover {
+a:hover,
+.link-button:hover {
   text-decoration: underline;
 }
 
-.export-button {
+.hero-button {
   border-radius: 0.25rem;
   padding: 0.25rem 1rem 0.5rem;
   font-variant: small-caps;
   text-transform: lowercase;
   background-color: var(--blue-600);
   color: var(--color-text-light);
+}
+label {
+  font-weight: bold;
+  padding: 0.5rem 0;
+}
+label > input {
+  display: block;
+}
+
+.visually-hidden {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+.card {
+  background-color: var(--color-lighter);
+  border-radius: 1rem;
+  padding: 1rem;
+}
+.project-summary-list {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  max-width: 600px;
+  text-align: center;
 }

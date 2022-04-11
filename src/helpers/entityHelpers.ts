@@ -16,6 +16,8 @@ export const createBaseEntity = (fallbackNameSuffix?: string): BaseEntity => ({
 });
 
 const asIds = (entities: BaseEntity[]) => entities.map((entity) => entity.id);
+const asNames = (entities: BaseEntity[]) =>
+  entities.map((entity) => entity.name);
 
 export const createProject = (): Project => ({
   ...createBaseEntity("Project"),
@@ -178,3 +180,12 @@ export const moveArrayItem = <ItemType>(
   swapItemsAtIndex(arrayCopy, indexToMove, indexToMove + indexOffset);
   return arrayCopy;
 };
+
+export const summarizeProject = (project: Project): ProjectSummary => ({
+  id: project.id,
+  name: project.name,
+  createdAt: project.createdAt,
+  layerNames: asNames(project.layers),
+  assignmentNames: asNames(project.assignmentSepecifications),
+  trackNames: asNames(project.trackSpecifications),
+});

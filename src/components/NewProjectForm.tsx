@@ -2,42 +2,44 @@ import { h, FunctionComponent } from "preact";
 import { useState } from "preact/hooks";
 import { Button } from "./Button";
 import {
-  getEndDateString,
-  getNextWeek,
+  getNextYear,
   getNow,
-  getWeekCount,
+  getWeekRanges,
   simpleDateFromString,
   simpleDateToString,
 } from "../helpers/dateHelpers";
 import { createProject } from "../helpers/entityHelpers";
 import { DebouncedInput } from "./DebouncedInput";
+import { Box } from "./Box";
 
 export const NewProjectForm: FunctionComponent<{
-  project?: Project;
   onSubmit: (project: Project) => void;
-  onCancel: () => void;
-}> = ({ project, onCancel, onSubmit }) => {
-  const [name, setName] = useState(project?.name || "");
+}> = ({ onSubmit }) => {
+  const [name, setName] = useState("");
   const [startDateRaw, setStartDateRaw] = useState(() =>
-    simpleDateToString(project?.rowDates?.[0]?.start ?? getNow())
+    simpleDateToString(getNow())
   );
   const [endDateRaw, setEndDateRaw] = useState(() =>
-    project
-      ? getEndDateString(project.startDate, project.duration)
-      : simpleDateToString(getNextWeek())
+    simpleDateToString(getNextYear())
   );
 
   return (
-    <form
+    <Box
+      as="form"
+      flexDirection="column"
+      alignItems="flex-start"
+      className="card"
       onSubmit={(e) => {
         e.preventDefault();
-        const duration = getWeekCount(startDateRaw, endDateRaw);
+        const rowDates = getWeekRanges(
+          simpleDateFromString(startDateRaw),
+          simpleDateFromString(endDateRaw)
+        );
         onSubmit({
           ...createProject(),
-          ...project,
+          rowDates,
           name,
-          startDate: simpleDateFromString(startDateRaw),
-          duration,
+          duration: rowDates.length,
         });
       }}
     >
@@ -48,6 +50,7 @@ export const NewProjectForm: FunctionComponent<{
           value={name}
           onCommit={setName}
           placeholder="Project Name"
+          required
         />
       </label>
       <label>
@@ -55,6 +58,7 @@ export const NewProjectForm: FunctionComponent<{
         <input
           type="date"
           value={startDateRaw}
+          className="input"
           onChange={(e) => setStartDateRaw(e.currentTarget.value)}
         />
       </label>
@@ -63,14 +67,16 @@ export const NewProjectForm: FunctionComponent<{
         <input
           type="date"
           value={endDateRaw}
+          className="input"
           onChange={(e) => setEndDateRaw(e.currentTarget.value)}
         />
       </label>
 
-      <Button type="submit">{project ? "Save" : "Create"}</Button>
-      <Button type="button" onClick={onCancel}>
-        Cancel
-      </Button>
-    </form>
+      <Box mt={0.75}>
+        <Button type="submit" className="h3 hero-button">
+          Create
+        </Button>
+      </Box>
+    </Box>
   );
 };

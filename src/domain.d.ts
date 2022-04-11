@@ -26,6 +26,11 @@ declare global {
     assignmentSepecifications: ProjectAssignmentSpecification[];
     activeAssignmentSpecId: string | null;
   }
+  interface ProjectSummary extends BaseEntity {
+    layerNames: string[];
+    trackNames: string[];
+    assignmentNames: string[];
+  }
 
   interface ProjectTrackSpecification extends BaseEntity {}
 

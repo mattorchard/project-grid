@@ -1,5 +1,4 @@
 import { h, createContext, FunctionComponent } from "preact";
-import { useEffect } from "preact/hooks";
 import { useProjectState } from "../hooks/useProjectState";
 import { useSafeContext } from "../hooks/useSafeContext";
 
@@ -8,11 +7,10 @@ const ProjectContext = createContext<
 >(undefined);
 ProjectContext.displayName = "ProjectContext";
 
-export const ProjectContextProvider: FunctionComponent<{}> = ({ children }) => {
-  const value = useProjectState();
-  useEffect(() => {
-    console.debug("Project", value.project);
-  }, [value.project]);
+export const ProjectContextProvider: FunctionComponent<{
+  initialProject: Project;
+}> = ({ initialProject, children }) => {
+  const value = useProjectState(initialProject);
   return <ProjectContext.Provider value={value} children={children} />;
 };
 
