@@ -88,12 +88,18 @@ export const useProjectState = (initialProject: Project) => {
         })),
 
       addAssignSpec: () =>
-        updateProject((oldProject) => ({
-          assignmentSepecifications: [
-            ...oldProject.assignmentSepecifications,
-            createAssignment(oldProject.assignmentSepecifications),
-          ],
-        })),
+        updateProject((oldProject) => {
+          const newAssignment = createAssignment(
+            oldProject.assignmentSepecifications
+          );
+          return {
+            activeAssignmentSpecId: newAssignment.id,
+            assignmentSepecifications: [
+              ...oldProject.assignmentSepecifications,
+              newAssignment,
+            ],
+          };
+        }),
 
       activateAssignment: (assignSpecId: string | null) =>
         updateProject(() => ({ activeAssignmentSpecId: assignSpecId })),
