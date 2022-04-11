@@ -55,6 +55,21 @@ export const AssignmentPalette: FunctionalComponent<{}> = ({}) => {
             />
           </Box>
         ))}
+        {assignmentSepecifications.length > 0 && (
+          <Box as="li" alignItems="center">
+            <Box p={0.25} pr={0.5} as="label">
+              <input
+                type="radio"
+                name="assignment"
+                checked={!activeAssignmentSpecId}
+                onChange={(e) => {
+                  if (e.currentTarget.checked) activateAssignment(null);
+                }}
+              />
+            </Box>
+            <span className="input">Erase</span>
+          </Box>
+        )}
       </ul>
       {assignmentSepecifications.length === 0 && (
         <NonIdealState title="Add an assignment">
