@@ -3,6 +3,7 @@ import { useCallback, useMemo, useRef, useState } from "preact/hooks";
 import { useProjectContext } from "../contexts/ProjectContext";
 import { simpleDateToString, toHumanDate } from "../helpers/dateHelpers";
 import { asCssVar } from "../palette";
+import { NonIdealState } from "./NonIdealState";
 import "./ProjectGrid.css";
 
 export const ProjectGrid: FunctionComponent<{}> = ({}) => {
@@ -104,7 +105,6 @@ export const ProjectGrid: FunctionComponent<{}> = ({}) => {
           onPointerDown={handlePointer}
           onContextMenu={(e) => e.preventDefault()}
         >
-          {layerStack.length === 0 && <p>No Visible Layers</p>}
           {layerStack.map((layer, layerIndex) => (
             <Fragment key={layer.id}>
               {layer.tracks.map((track, trackIndex) => (
@@ -137,6 +137,19 @@ export const ProjectGrid: FunctionComponent<{}> = ({}) => {
               ))}
             </Fragment>
           ))}
+          {layerStack.length === 0 && (
+            <div className="no-visible-layers-message">
+              {project.layers.length ? (
+                <NonIdealState title="No visible layers">
+                  Use the checkboxes in the layer panel to show and hide layers.
+                </NonIdealState>
+              ) : (
+                <NonIdealState title="No layers">
+                  Use the layer panel to <a href="#add-layer">add layers</a>.
+                </NonIdealState>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>

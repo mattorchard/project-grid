@@ -7,6 +7,7 @@ import { MoveArrows } from "./MoveArrows";
 import { RemoveButton } from "./RemoveButton";
 import { useProjectContext } from "../contexts/ProjectContext";
 import { useMemo } from "preact/hooks";
+import { NonIdealState } from "./NonIdealState";
 
 export const LayerStack: FunctionComponent<{}> = ({}) => {
   const {
@@ -25,7 +26,7 @@ export const LayerStack: FunctionComponent<{}> = ({}) => {
     <section>
       <Box as="header" justifyContent="space-between" mb={0.5}>
         <h3 className="h3">Layers</h3>
-        <AddButton title="Add empty layer" onClick={addLayer} />
+        <AddButton title="Add empty layer" onClick={addLayer} id="add-layer" />
       </Box>
       <ol>
         {layers.map((layer, index) => (
@@ -60,6 +61,14 @@ export const LayerStack: FunctionComponent<{}> = ({}) => {
           </Box>
         ))}
       </ol>
+
+      {layers.length === 0 && (
+        <NonIdealState title="Add a layer">
+          Layers let you preview different setups.
+          <br />
+          When exported each layer becomes its own file.
+        </NonIdealState>
+      )}
 
       {layers.length > 1 && (
         <Box

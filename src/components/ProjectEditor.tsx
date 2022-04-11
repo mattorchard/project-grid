@@ -12,6 +12,11 @@ import { downloadProjectAsCsv } from "../helpers/csvHelpers";
 export const ProjectEditor = () => {
   const { project, renameProject } = useProjectContext();
 
+  const showExport =
+    project.layers.length > 0 &&
+    project.trackSpecifications.length > 0 &&
+    project.assignmentSepecifications.length > 0;
+
   return (
     <Box>
       <ProjectGrid />
@@ -29,18 +34,23 @@ export const ProjectEditor = () => {
             className="h2"
           />
         </Box>
+
         <AssignmentPalette />
 
         <LayerStack />
+
         <TrackList />
-        <Box justifyContent="center">
-          <Button
-            className="h3 hero-button"
-            onClick={() => downloadProjectAsCsv(project)}
-          >
-            Export
-          </Button>
-        </Box>
+
+        {showExport && (
+          <Box justifyContent="center">
+            <Button
+              className="h3 hero-button"
+              onClick={() => downloadProjectAsCsv(project)}
+            >
+              Export
+            </Button>
+          </Box>
+        )}
       </Box>
     </Box>
   );

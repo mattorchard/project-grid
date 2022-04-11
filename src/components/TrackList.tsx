@@ -4,6 +4,7 @@ import { AddButton } from "./AddButton";
 import { Box } from "./Box";
 import { DebouncedInput } from "./DebouncedInput";
 import { MoveArrows } from "./MoveArrows";
+import { NonIdealState } from "./NonIdealState";
 import { RemoveButton } from "./RemoveButton";
 
 export const TrackList: FunctionComponent<{}> = ({}) => {
@@ -44,6 +45,13 @@ export const TrackList: FunctionComponent<{}> = ({}) => {
           </Box>
         ))}
       </ol>
+      {trackSpecifications.length === 0 && (
+        <NonIdealState title="Add a track">
+          Tracks are the resources you'd like to manage.
+          <br />
+          Each track is a column in the output.
+        </NonIdealState>
+      )}
     </div>
   );
 };

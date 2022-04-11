@@ -38,7 +38,7 @@
 .project-grid[data-disabled] {
   cursor: not-allowed;
 }
-.project-grid[data-disabled] > * {
+.project-grid[data-disabled] > .pg-track {
   pointer-events: none;
 }
 
@@ -93,5 +93,14 @@
 }
 .project-grid__track-names > * {
   font-weight: bold;
+  cursor: help;
+}
+
+.no-visible-layers-message {
+  position: sticky;
+  top: 10%;
+  transform: translateX(100px);
+  width: max-content;
+  pointer-events: all;
   cursor: help;
 }

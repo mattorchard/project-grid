@@ -3,6 +3,7 @@ import { useProjectContext } from "../contexts/ProjectContext";
 import { AddButton } from "./AddButton";
 import { Box } from "./Box";
 import { DebouncedInput } from "./DebouncedInput";
+import { NonIdealState } from "./NonIdealState";
 import { PaletteColorPicker } from "./PaletteColorPicker";
 import { RemoveButton } from "./RemoveButton";
 
@@ -18,7 +19,7 @@ export const AssignmentPalette: FunctionalComponent<{}> = ({}) => {
   return (
     <div>
       <Box as="header" justifyContent="space-between" mb={0.5}>
-        <h3 className="h3">Assignment</h3>
+        <h3 className="h3">Assignments</h3>
         <AddButton title="Add Assignment" onClick={addAssignSpec} />
       </Box>
       <ul>
@@ -55,6 +56,11 @@ export const AssignmentPalette: FunctionalComponent<{}> = ({}) => {
           </Box>
         ))}
       </ul>
+      {assignmentSepecifications.length === 0 && (
+        <NonIdealState title="Add an assignment">
+          Assignments can be allocated to each cell.
+        </NonIdealState>
+      )}
     </div>
   );
 };
