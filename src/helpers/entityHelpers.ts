@@ -1,11 +1,6 @@
 import { v4 as uuidV4 } from "uuid";
 import { palette, PaletteColor } from "../palette";
-import {
-  getNextYear,
-  getNow,
-  getWeekRanges,
-  WEEKS_IN_YEAR,
-} from "./dateHelpers";
+import { getNextYear, getNow, getWeekRanges } from "./dateHelpers";
 
 const createId = () => uuidV4();
 
